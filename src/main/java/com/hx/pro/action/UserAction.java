@@ -34,7 +34,7 @@ public class UserAction extends ActionSupport {
 	 * @throws Exception 
 	 */
 	public String signUp() throws Exception {
-		String code = (String) SessionUtil.getSessionValue("validate123*Code");
+		String code = (String) SessionUtil.getSessionValue("1-23*");
 		if (inputCode!=null&&!inputCode.equals("")) {
 			if (inputCode.equals(code)) {
 				String pwd_md5 = Md5EncodeUtil.encodeStr(password);
@@ -51,7 +51,7 @@ public class UserAction extends ActionSupport {
 	 */
 	public String validateCode() {
 		inputCode = RandomUtil.createRandomCode(4);
-		SessionUtil.setSessionValue("validate123*Code", inputCode);
+		SessionUtil.setSessionValue("1-23*", inputCode);
 		return Action.SUCCESS;
 	}
 	
