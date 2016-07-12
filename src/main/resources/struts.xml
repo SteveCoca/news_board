@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 指定由spring负责action对象的创建 -->
+	<constant name="struts.objectFactory" value="spring"></constant>
+	<!-- 所有匹配*.do的请求都由struts2处理 -->
+	<constant name="struts.action.extension" value="do" />
+	<!-- 是否启用开发模式(开发时设置为true,发布到生产环境后设置为false) -->
+	<constant name="struts.devMode" value="true" />
+	<!-- struts配置文件改动后，是否重新加载(开发时设置为true,发布到生产环境后设置为false) -->
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<!-- 设置浏览器是否缓存静态内容(开发时设置为false,发布到生产环境后设置为true) -->
+	<constant name="struts.serve.static.browserCache" value="false" />
+	<!-- 请求参数的编码方式 -->
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<!-- 每次HTTP请求系统都重新加载资源文件，有助于开发(开发时设置为true,发布到生产环境后设置为false) -->
+	<constant name="struts.i18n.reload" value="true" />
+	<!-- 文件上传最大值 -->
+	<constant name="struts.multipart.maxSize" value="104857600" />
+	<!-- 让struts2支持动态方法调用,使用叹号访问方法 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<!-- Action名称中是否还是用斜线 -->
+	<constant name="struts.enable.SlashesInActionNames" value="false" />
+	<!-- 允许标签中使用表达式语法 -->
+	<constant name="struts.tag.altSyntax" value="true" />
+	<!-- 对于WebLogic,Orion,OC4J此属性应该设置成true -->
+	<constant name="struts.dispatcher.parametersWorkaround" value="false" />
+
+	<package name="MyIntercept" extends="struts-default,json-default" namespace="/">
+		<!-- 声明拦截器 -->
+		<interceptors>
+			<!-- 权限拦截器 -->
+			<!-- <interceptor name="permission" class="com.hx.pro.interceptor.PermissionInterceptor" /> -->
+			<!-- 异常拦截器 -->
+			<!-- <interceptor name="exceptionInterceptor"
+				class="us.xuhang.project.interceptor.ExceptionInterceptor" /> -->
+			<!-- 声明拦截器栈！解决struts安全漏洞，拦截所有的带有#号的url -->
+			<interceptor-stack name="MyStack">
+				<interceptor-ref name="params">
+					<param name="excludeParams">.*\\u0023.*</param>
+				</interceptor-ref>
+				<!-- 使用自定义拦截器后就不会再使用默认拦截器栈，这里需要把默认拦截器栈加进来。 -->
+				<interceptor-ref name="defaultStack" />
+				<!-- <interceptor-ref name="permission" /> -->
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="MyStack" />
+		<!-- 定义全局的result -->
+		<global-results>
+			<result name="login">/index.jsp</result>
+			<result name="error">/error.jsp</result>
+		</global-results>
+	</package>
+	<include file="struts/struts-action.xml" />
+
+</struts>

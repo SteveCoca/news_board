@@ -1,0 +1,10 @@
+com\hx\pro\dao\IBaseDao.class
+com\hx\pro\dao\impl\UserDao.class
+com\hx\pro\action\UserAction.class
+com\hx\pro\dao\IUserDao.class
+com\hx\pro\service\IBaseService.class
+com\hx\pro\service\IUserService.class
+com\hx\pro\service\impl\BaseService.class
+com\hx\pro\dao\impl\BaseDao.class
+com\hx\pro\service\impl\UserService.class
+com\hx\pro\entity\User.class
